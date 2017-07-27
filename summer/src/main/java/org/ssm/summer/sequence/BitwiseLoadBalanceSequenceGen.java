@@ -1,4 +1,10 @@
 package org.ssm.summer.sequence;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 /** 
  * 
  * @author  June
@@ -6,6 +12,7 @@ package org.ssm.summer.sequence;
  * @date 2017年7月27日 下午4:09:51
  * @since   
  */
+@Component
 public class BitwiseLoadBalanceSequenceGen {
 
     /**
@@ -26,10 +33,19 @@ public class BitwiseLoadBalanceSequenceGen {
      * 移到不可用队列多长时间后会被重新放入可用队列
      */
     private Integer onErrorRescueThresholdInSeconds;
+
+    private Integer leftShiftCount;
     
+
+    private Map<String, SequenceGen> availablePartitionIndices;
     
-    public BitwiseLoadBalanceSequenceGen() {
-        
+    public BitwiseLoadBalanceSequenceGen(Integer arg0, Map<String, SequenceGen> arg1) {
+        this.leftShiftCount = arg0;
+        this.availablePartitionIndices = arg1;
+    }
+    
+    public long gen(String ownerKey) {
+        return 1L;
     }
 
 

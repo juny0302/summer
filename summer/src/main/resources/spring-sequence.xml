@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"  
+        xmlns:context="http://www.springframework.org/schema/context"  
+        xmlns:mvc="http://www.springframework.org/schema/mvc"  
+        xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        ">  
+	<bean id="highAvailableSequenceGen" class="org.ssm.summer.sequence.BitwiseLoadBalanceSequenceGen">
+	      <!-- 指定高可用序列底层序列生成序列后向左移位位数-->
+	    <constructor-arg index="0" value="2"/>
+	     <!-- 指定底层序列 -->
+	    <constructor-arg index="1">
+	        <map>
+	            <!-- key 为底层序列生成值左移位后或的下标-->
+	        <entry key="0">
+	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
+	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
+	                </bean>
+	            </entry>
+	            <entry key="1">
+	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
+	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
+	                </bean>
+	            </entry>
+	            <entry key="2">
+	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
+	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
+	                </bean>
+	            </entry>
+	            <entry key="3">
+	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
+	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
+	                </bean>
+	            </entry>
+	        </map>
+	    </constructor-arg>
+	    <!-- 将timeout判断的阈值设置为一个很大的值， 避免timeout应用error的情况发生-->
+	   <property name="timeoutThresholdInMilliseconds" value="200"/>
+	    <!-- 超时多少次后会移出可用列表 -->
+	   <property name="timeoutEventCountThreshold" value="3"/>
+	    <!-- 计算超时异常的时间周期， 以秒为单位 -->
+	   <property name="timeoutTimeThresholdInSeconds" value="60" />
+	    <!-- 移到不可用队列多长时间后会被重新放入可用队列 -->
+	   <property name="onErrorRescueThresholdInSeconds" value="2000"/>
+	</bean>
+      
+</beans> 
