@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @TableName("sys_config")
 public class Config extends Model<Config> {
@@ -84,4 +84,14 @@ public class Config extends Model<Config> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Config{" 
+		+ "id=" + id 
+		+ ", gmtCreate=" + gmtCreate 
+		+ ", gmtModified=" + gmtModified 
+		+ ", configName=" + configName 
+		+ ", configValue=" + configValue 
+		+ "}";
+	}
 }

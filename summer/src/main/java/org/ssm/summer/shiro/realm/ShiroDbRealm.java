@@ -11,6 +11,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.ssm.summer.entity.User;
@@ -22,7 +24,8 @@ import org.ssm.summer.service.IUserService;
  *
  */
 @Component
-public class ShiroDbRealm extends AuthorizingRealm {  
+public class ShiroDbRealm extends AuthorizingRealm { 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShiroDbRealm.class);
     @Autowired  
     private IUserService userService;  
     public static final String SESSION_USER_KEY = "summer";  
@@ -34,7 +37,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {  
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute(ShiroDbRealm.SESSION_USER_KEY);  
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();  
-        //info.addRole(user.getRole().trim());  
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(user.getUserName());
+        }
         return info;  
     }  
   

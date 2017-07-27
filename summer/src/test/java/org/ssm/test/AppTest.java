@@ -10,6 +10,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
  * @since   
  */
 public class AppTest {
+    
     public static void main(String[] args) {
         //System.out.println(StringUtils.isBlank("1"));
         System.out.println(new Md5Hash("111111","jjch").toString());

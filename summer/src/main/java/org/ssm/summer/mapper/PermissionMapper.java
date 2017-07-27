@@ -12,8 +12,13 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 public interface PermissionMapper extends BaseMapper<Permission> {
+    /**
+     * 
+    * @param userId 用户id
+    * @return Permission对象
+     */
     List<Permission> selectAllByUserId(@Param("userId") Long userId);
 }

@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @TableName("sys_log")
 public class Log extends Model<Log> {
@@ -88,4 +88,14 @@ public class Log extends Model<Log> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Log{" 
+		+ "id=" + id 
+		+ ", uid=" + uid 
+		+ ", content=" + content 
+		+ ", operation=" + operation 
+		+ ", crTime=" + crTime 
+		+ "}";
+	}
 }

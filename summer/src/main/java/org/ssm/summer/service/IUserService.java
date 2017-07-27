@@ -1,7 +1,6 @@
 package org.ssm.summer.service;
 
 import org.ssm.summer.entity.User;
-
 import com.baomidou.mybatisplus.service.IService;
 
 /**
@@ -10,12 +9,12 @@ import com.baomidou.mybatisplus.service.IService;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 public interface IUserService extends IService<User> {
     /**
      * 
-    * @param user User对象
+    * @param user  User对象
     * @return User对象
      */
     User doUserLogin(User user);

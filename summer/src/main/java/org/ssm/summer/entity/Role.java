@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @TableName("sys_role")
 public class Role extends Model<Role> {
@@ -90,4 +90,14 @@ public class Role extends Model<Role> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Role{" 
+		+ "id=" + id 
+		+ ", roleName=" + roleName 
+		+ ", isDeleted=" + isDeleted 
+		+ ", gmtCreate=" + gmtCreate 
+		+ ", gmtModified=" + gmtModified 
+		+ "}";
+	}
 }

@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @Service
-public class RolePermissionRefServiceImpl extends ServiceImpl<RolePermissionRefMapper, RolePermissionRef> implements IRolePermissionRefService {
+public class RolePermissionRefServiceImpl extends ServiceImpl<RolePermissionRefMapper, 
+    RolePermissionRef> implements IRolePermissionRefService {
 	
 }

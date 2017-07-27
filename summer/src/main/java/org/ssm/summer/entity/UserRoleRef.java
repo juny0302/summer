@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @TableName("sys_user_role_ref")
 public class UserRoleRef extends Model<UserRoleRef> {
@@ -103,4 +103,15 @@ public class UserRoleRef extends Model<UserRoleRef> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "UserRoleRef{" 
+		+ "id=" + id 
+		+ ", userId=" + userId 
+		+ ", roleId=" + roleId 
+		+ ", isDeleted=" + isDeleted 
+		+ ", gmtCreate=" + gmtCreate 
+		+ ", gmtModified=" + gmtModified 
+		+ "}";
+	}
 }

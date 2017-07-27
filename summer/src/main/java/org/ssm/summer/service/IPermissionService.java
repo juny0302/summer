@@ -11,10 +11,14 @@ import com.baomidou.mybatisplus.service.IService;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 public interface IPermissionService extends IService<Permission> {
-
+    
+    /**
+     * 
+    * @param userId 用户id
+    * @return Permission Permission对象列表
+     */
     List<Permission> selectAllByUserId(Long userId);
-
 }

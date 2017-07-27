@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,10 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements IPermissionService {
-
-    
     @Cacheable(value = "permissionCache", key = "#userId")
     @Override
     public List<Permission> selectAllByUserId(Long userId) {

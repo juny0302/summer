@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @TableName("sys_permission")
 public class Permission extends Model<Permission> {
@@ -164,4 +164,20 @@ public class Permission extends Model<Permission> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Permission{" 
+		+ "id=" + id 
+		+ ", title=" + title 
+		+ ", permissionCode=" + permissionCode 
+		+ ", url=" + url 
+		+ ", isMenu=" + isMenu 
+		+ ", isDeleted=" + isDeleted 
+		+ ", parentId=" + parentId 
+		+ ", icon=" + icon 
+		+ ", sort=" + sort 
+		+ ", gmtCreate=" + gmtCreate 
+		+ ", gmtModified=" + gmtModified 
+		+ "}";
+	}
 }

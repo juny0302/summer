@@ -23,7 +23,10 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  * 代码生成器演示
  * </p>
  */
-public class MpGenerator {
+public final class MpGenerator {
+    private MpGenerator() {
+        
+    }
 
     /**
      * <p>
@@ -38,9 +41,12 @@ public class MpGenerator {
         gc.setOutputDir("D://generator");
         gc.setFileOverride(true);
         gc.setActiveRecord(true);
-        gc.setEnableCache(false);// XML 二级缓存
-        gc.setBaseResultMap(true);// XML ResultMap
-        gc.setBaseColumnList(false);// XML columList
+        // XML 二级缓存
+        gc.setEnableCache(false);
+        // XML ResultMap
+        gc.setBaseResultMap(true);
+        // XML columList
+        gc.setBaseColumnList(false);
         gc.setAuthor("June");
 
         // 自定义文件命名，注意 %s 会自动填充表实体属性！
@@ -54,7 +60,7 @@ public class MpGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
-        dsc.setTypeConvert(new MySqlTypeConvert(){
+        dsc.setTypeConvert(new MySqlTypeConvert() {
             // 自定义数据库表字段类型转换【可选】
             @Override
             public DbColumnType processTypeConvert(String fieldType) {

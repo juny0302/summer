@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author June
- * @since 2017-07-06
+ * @since 2017-07-27
  */
 @TableName("sys_user")
 public class User extends Model<User> {
@@ -127,4 +127,17 @@ public class User extends Model<User> {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return "User{" 
+		+ "id=" + id 
+		+ ", userName=" + userName 
+		+ ", account=" + account 
+		+ ", password=" + password 
+		+ ", userType=" + userType 
+		+ ", isDeleted=" + isDeleted 
+		+ ", gmtCreate=" + gmtCreate 
+		+ ", gmtModified=" + gmtModified 
+		+ "}";
+	}
 }
