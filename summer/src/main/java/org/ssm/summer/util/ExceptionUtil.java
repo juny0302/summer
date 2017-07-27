@@ -7,9 +7,17 @@ import java.io.StringWriter;
  * @author 
  * @date 2016年12月6日  新建  
  */
-public class ExceptionUtil {
+public final class ExceptionUtil {
 	
-	public static String printStackTrace(Exception e){
+    private ExceptionUtil() {
+        
+    }
+    /**
+     * 
+    * @param e Exception对象
+    * @return 异常的堆栈信息
+     */
+	public static String printStackTrace(Exception e) {
 		 StringWriter sw = new StringWriter(); 
 
          e.printStackTrace(new PrintWriter(sw, true)); 

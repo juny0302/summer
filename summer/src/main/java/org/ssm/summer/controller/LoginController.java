@@ -6,12 +6,8 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.ssm.summer.entity.User;
-import org.ssm.summer.service.IUserService;
-import org.ssm.summer.util.ExceptionUtil;
 
 /** 
  * 功能: 
@@ -25,18 +21,28 @@ public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
     private static final String SALT = "jjch";
     
+    /**
+     * 请求登录页面
+     * @return 登录页面名称
+     */
     @RequestMapping("login")
-    public String login(){
+    public String login() {
         return "login";
     }
     
+    /**
+     * 提交登录请求
+     * @param userName 用户名
+     * @param password 密码
+     * @return 登录成功后显示的首页名称
+     */
     @RequestMapping("loginPost")
-    public String loginPost(String userName,String password){
+    public String loginPost(String userName, String password) {
         try {
             Subject subject = SecurityUtils.getSubject(); 
             
             //密码MD5加盐加密
-            String pwd =new Md5Hash(password,SALT).toString();
+            String pwd = new Md5Hash(password, SALT).toString();
             UsernamePasswordToken token = new UsernamePasswordToken(userName, pwd);
             subject.login(token);
             return "index";
@@ -48,8 +54,12 @@ public class LoginController {
         return "login";        
     }
     
+    /**
+     * 退出请求
+     * @return 登录页面
+     */
     @RequestMapping("logout")
-    public String logout(){
+    public String logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         

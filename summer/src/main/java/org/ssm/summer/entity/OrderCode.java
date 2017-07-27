@@ -21,7 +21,7 @@ public class OrderCode extends Model<OrderCode> {
 
     private static final long serialVersionUID = 1L;
 
-	@TableId(value="id", type= IdType.AUTO)
+	@TableId(value = "id", type = IdType.AUTO)
 	private Long id;
 	@TableField("gmt_create")
 	private Date gmtCreate;

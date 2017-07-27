@@ -1,5 +1,4 @@
 package org.ssm.summer.shiro.realm;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,6 +16,11 @@ import org.springframework.stereotype.Component;
 import org.ssm.summer.entity.User;
 import org.ssm.summer.service.IUserService;
 
+/**
+ * 
+ * @author Administrator
+ *
+ */
 @Component
 public class ShiroDbRealm extends AuthorizingRealm {  
     @Autowired  
@@ -38,13 +42,13 @@ public class ShiroDbRealm extends AuthorizingRealm {
      * 认证回调函数，登录信息和用户验证信息验证 
      */  
     @Override  
-    protected AuthenticationInfo doGetAuthenticationInfo(  
+    protected AuthenticationInfo doGetAuthenticationInfo(
             AuthenticationToken authcToken) throws AuthenticationException {  
         // 把token转换成User对象  
         User userLogin = tokenToUser((UsernamePasswordToken) authcToken);  
         // 验证用户是否可以登录  
         User ui = userService.doUserLogin(userLogin);  
-        if(ui == null){
+        if (ui == null) {
             throw new UnknownAccountException(); 
         }  
         // 设置session  
@@ -57,7 +61,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
         Object principal = authcToken.getPrincipal();  
         return new SimpleAuthenticationInfo(principal, userLogin.getPassword(), realmName);  
     }  
-  
+    /**
+     * 
+     * @param authcToken UsernamePasswordToken对象
+     * @return 一个User对象
+     */
     private User tokenToUser(UsernamePasswordToken authcToken) {  
         User user = new User();  
         user.setAccount(authcToken.getUsername());  

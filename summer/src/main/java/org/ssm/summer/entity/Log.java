@@ -23,7 +23,7 @@ public class Log extends Model<Log> {
     /**
      * 主键
      */
-	@TableId(value="id", type= IdType.AUTO)
+	@TableId(value = "id", type = IdType.AUTO)
 	private Long id;
     /**
      * 用户ID
