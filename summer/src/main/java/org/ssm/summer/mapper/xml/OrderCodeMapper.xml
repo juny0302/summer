@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ssm.summer.mapper.OrderCodeMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="org.ssm.summer.entity.OrderCode">
+		<id column="id" property="id" />
+		<result column="gmt_create" property="gmtCreate" />
+	</resultMap>
+	
+	<insert id="insertOrderCode" parameterType="org.ssm.summer.entity.OrderCode">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+			insert into order_code_0(gmt_create)values(current_timestamp)
+	</insert>
+
+</mapper>

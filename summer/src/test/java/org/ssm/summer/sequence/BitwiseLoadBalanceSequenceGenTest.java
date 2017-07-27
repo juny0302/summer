@@ -1,7 +1,5 @@
 package org.ssm.summer.sequence;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ public class BitwiseLoadBalanceSequenceGenTest {
      */
     @Test
     public void testGen() {
-        System.out.println(highAvailableSequenceGen);
+        System.out.println(highAvailableSequenceGen.gen("aaa"));
     }
 
 }

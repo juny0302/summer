@@ -26,6 +26,7 @@ public class AutoIncrementTablesSequenceGen implements SequenceGen {
      */
     @Override
     public Long gen(String ownerKey) {
+
         return 1L;
     }
 

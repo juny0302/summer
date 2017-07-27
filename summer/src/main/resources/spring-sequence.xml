@@ -49,5 +49,25 @@
 	    <!-- 移到不可用队列多长时间后会被重新放入可用队列 -->
 	   <property name="onErrorRescueThresholdInSeconds" value="2000"/>
 	</bean>
-      
+	
+<!-- 	<bean class="org.ssm.summer.sequence.QueuedSequenceGen" id="queuedSequenceGen" init-method="start" destroy-method="stop">
+	    指定内部序列， 通常是一个高可用的内部序列
+	    <constructor-arg index="0" ref="haSequenceGen" />
+	    指定内存中生成的bit位数
+	    <property name="memoryBitLength" value="3"/>
+	    异步生成配置
+	    <property name="enableAsync" value="true"/>
+	    <property name="asyncTask">
+	        <bean class="com.jd.coo.sa.sequence.QueuedSequenceGen$AsyncTask">
+	            <constructor-arg index="0" ref="queuedSequenceGen"/>
+	            <property name="loopSleepInterval" value="20"/>
+	            <property name="reserveTimeInMilliseconds" value="10"/>
+	        </bean>
+	    </property>
+	    结束异步配置
+	</bean> -->
+	 <bean id="tableGen" class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
+         <property name="dataSource" ref="dataSource"/>
+         <property name="sequenceTableFormat" value="%s_code_%d"/>
+     </bean>
 </beans> 
