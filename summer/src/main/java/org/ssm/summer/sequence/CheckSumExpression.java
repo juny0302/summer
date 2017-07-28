@@ -1,4 +1,8 @@
 package org.ssm.summer.sequence;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /** 
  * 
  * @author  June
@@ -7,6 +11,7 @@ package org.ssm.summer.sequence;
  * @since   
  */
 public class CheckSumExpression implements Expression {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckSumExpression.class);
 
     /* (non-Javadoc)
      * @see org.ssm.summer.sequence.Expression#maxLength()
@@ -38,11 +43,15 @@ public class CheckSumExpression implements Expression {
         return ExecuteOrder.AfterNormal;
     }
     
+    /**
+     * 
+    * @param args 参数
+     */
     public static void main(String[] args) {
-        System.out.println(1 << 2 | 0);
-        System.out.println(1 << 2 | 1);
-        System.out.println(1 << 2 | 2);
-        System.out.println(1 << 2 | 3);
+        LOGGER.debug("aa", Integer.valueOf(1 << 2 | 0));
+        LOGGER.debug("", Integer.valueOf(1 << 2 | 1));
+        LOGGER.debug("", Integer.valueOf(1 << 2 | 2));
+        LOGGER.debug("", Integer.valueOf(1 << 2 | 3));
     }
 
 }

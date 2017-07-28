@@ -16,25 +16,25 @@
 	            <!-- key 为底层序列生成值左移位后或的下标-->
 	        <entry key="0">
 	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
-	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="jdbcTemplate" ref="jdbcTemplate"/>
 	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
 	                </bean>
 	            </entry>
 	            <entry key="1">
 	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
-	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="jdbcTemplate" ref="jdbcTemplate"/>
 	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
 	                </bean>
 	            </entry>
 	            <entry key="2">
 	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
-	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="jdbcTemplate" ref="jdbcTemplate"/>
 	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
 	                </bean>
 	            </entry>
 	            <entry key="3">
 	                <bean class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
-	                    <property name="dataSource" ref="dataSource"/>
+	                    <property name="jdbcTemplate" ref="jdbcTemplate"/>
 	                    <property name="sequenceTableFormat" value="%s_code_%d"/>
 	                </bean>
 	            </entry>
@@ -67,7 +67,7 @@
 	    结束异步配置
 	</bean> -->
 	 <bean id="tableGen" class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
-         <property name="dataSource" ref="dataSource"/>
+         <property name="jdbcTemplate" ref="jdbcTemplate"/>
          <property name="sequenceTableFormat" value="%s_code_%d"/>
      </bean>
 </beans> 

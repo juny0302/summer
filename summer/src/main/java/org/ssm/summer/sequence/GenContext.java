@@ -10,10 +10,10 @@ public class GenContext {
     
     /**
      * 
-    * @param sequence
-    * @return 
+    * @param sequence 表序号
+    * @return newId
      */
-    public Long get(String sequence){
+    public Long get(String sequence) {
         return 1L;
     }
 }

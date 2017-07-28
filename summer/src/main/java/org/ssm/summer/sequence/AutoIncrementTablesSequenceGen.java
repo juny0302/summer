@@ -1,11 +1,16 @@
 package org.ssm.summer.sequence;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-
-import com.alibaba.druid.pool.DruidDataSource;
 
 /** 
  * 通过表的自增列生成单号.
@@ -17,8 +22,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 @Component
 public class AutoIncrementTablesSequenceGen implements SequenceGen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AutoIncrementTablesSequenceGen.class);
+    private final String sql = "insert into `%s`(gmt_create)values(current_timestamp)";
 
-    private DruidDataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
     private String sequenceTableFormat;
 
     /* (non-Javadoc)
@@ -26,23 +32,43 @@ public class AutoIncrementTablesSequenceGen implements SequenceGen {
      */
     @Override
     public Long gen(String ownerKey) {
+        String tableName = String.format(sequenceTableFormat, ownerKey, 1);
+        final String insertSql = String.format(sql, tableName);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        
 
-        return 1L;
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            public PreparedStatement createPreparedStatement(Connection arg0)
+                    throws SQLException {
+                PreparedStatement ps = arg0.prepareStatement(insertSql, new String[] {"id"});
+                return ps;
+            }
+        }, keyHolder);
+        
+        Long newId = keyHolder.getKey().longValue();
+        
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("新插入数据的主键是：" + newId);
+        }
+        
+        return newId;
     }
 
     /**
-     * @return the dataSource
+     * @return the jdbcTemplate
      */
-    public DruidDataSource getDataSource() {
-        return dataSource;
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
     }
 
+
     /**
-     * @param dataSource the dataSource to set
+     * @param jdbcTemplate the jdbcTemplate to set
      */
-    public void setDataSource(DruidDataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
+
 
     /**
      * @return the sequenceTableFormat

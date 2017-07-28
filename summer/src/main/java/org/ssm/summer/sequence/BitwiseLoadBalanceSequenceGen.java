@@ -1,7 +1,11 @@
 package org.ssm.summer.sequence;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +17,8 @@ import org.springframework.stereotype.Component;
  * @since   
  */
 @Component
-public class BitwiseLoadBalanceSequenceGen {
+public class BitwiseLoadBalanceSequenceGen implements SequenceGen {
+    private final Logger LOGGER = LoggerFactory.getLogger(BitwiseLoadBalanceSequenceGen.class); 
 
     /**
      * 将timeout判断的阈值设置为一个很大的值， 避免timeout应用error的情况发生
@@ -36,18 +41,123 @@ public class BitwiseLoadBalanceSequenceGen {
 
     private Integer leftShiftCount;
     
-
-    private Map<String, SequenceGen> availablePartitionIndices;
     
-    public BitwiseLoadBalanceSequenceGen(Integer arg0, Map<String, SequenceGen> arg1) {
+    
+
+    //availablePartitionIndices
+    private Map<Integer, SequenceGen> innerSequences;
+    
+    private Set<Integer> availablePartitionIndices;
+    
+    public BitwiseLoadBalanceSequenceGen(Integer arg0, Map<Integer, SequenceGen> arg1) {
         this.leftShiftCount = arg0;
-        this.availablePartitionIndices = arg1;
+        this.innerSequences = arg1;
+        this.availablePartitionIndices = arg1.keySet();
     }
     
-    public long gen(String ownerKey) {
-        return 1L;
+    /* (non-Javadoc)
+     * @see org.ssm.summer.sequence.ISequenceGen#gen(java.lang.String)
+     */
+    @Override
+    public Long gen(String ownerKey) {
+        long sequence=0;
+        int currentPartitionIndex=-1;
+        SequenceGen innerGen=null;
+        do{
+            long startTime=System.currentTimeMillis();
+            boolean hasError=false;
+            try{
+                currentPartitionIndex = getCurrentPartitionIndex();
+                LOGGER.trace("current partition index {}",currentPartitionIndex);
+                innerGen = innerSequences.get(currentPartitionIndex);
+                if(innerGen==SkipSequence.INSTANCE){
+                    LOGGER.warn("current partition index {} is skipped",currentPartitionIndex);
+                    if(availablePartitionIndices.contains(currentPartitionIndex)){
+                        LOGGER.warn("current partition index {} is skipped, remove it",currentPartitionIndex);
+                        availablePartitionIndices.remove(Integer.valueOf(currentPartitionIndex));
+                    }
+
+                    continue;
+                }
+
+                //HighAvailablePartitionHolder.setPartition(currentPartitionIndex);
+                sequence=innerGen.gen(ownerKey);
+                onGenNewId(ownerKey,currentPartitionIndex,sequence);
+                LOGGER.trace("genNewId {} with inner {}",sequence,currentPartitionIndex);
+                break;
+            }catch(SequenceOutOfRangeException ex){
+                LOGGER.error("gen error SequenceOutOfRangeException index {} total available {}",
+                        currentPartitionIndex,
+                        availablePartitionIndices.size());
+                hasError=true;
+
+                LOGGER.error("set {} to SKIP",currentPartitionIndex);
+                this.innerSequences.put(Integer.valueOf(currentPartitionIndex),SkipSequence.INSTANCE);
+                onError(ownerKey,currentPartitionIndex,innerGen,ex);
+                LOGGER.error("after onError total available {}/{}",currentPartitionIndex,
+                        availablePartitionIndices.size());
+
+            }catch(Exception ex){
+                LOGGER.error("gen error index {} total available {}",currentPartitionIndex,
+                        availablePartitionIndices.size());
+                LOGGER.error("gen error ",ex);
+                hasError=true;
+                onError(ownerKey,currentPartitionIndex,innerGen,ex);
+                LOGGER.error("after onError total available {}/{}",currentPartitionIndex,
+                        availablePartitionIndices.size());
+            }finally{
+                long usedTime=System.currentTimeMillis()-startTime;
+                boolean isTimeout=usedTime>timeoutThresholdInMilliseconds;
+                if(!hasError&&isTimeout){
+                    onTimeout(currentPartitionIndex,innerGen,usedTime);
+                }
+                
+                LOGGER.trace("gen usedTime {}",usedTime);
+            }
+        }while(true);
+        return sequence;
     }
 
+
+    /**
+    * @param currentPartitionIndex
+    * @param innerGen
+    * @param usedTime
+    */
+    private void onTimeout(int currentPartitionIndex, SequenceGen innerGen, long usedTime) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+    * @param ownerKey
+    * @param currentPartitionIndex
+    * @param innerGen
+    * @param ex
+    */
+    private void onError(String ownerKey, int currentPartitionIndex, SequenceGen innerGen, Exception ex) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+    * @param ownerKey
+    * @param currentPartitionIndex
+    * @param sequence
+    */
+    private void onGenNewId(String ownerKey, int currentPartitionIndex, long sequence) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+    * @param ownerKey
+    * @return
+    */
+    private int getCurrentPartitionIndex() throws SequenceOutOfRangeException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
     /**
      * @return the timeoutThresholdInMilliseconds
@@ -111,6 +221,8 @@ public class BitwiseLoadBalanceSequenceGen {
     public void setOnErrorRescueThresholdInSeconds(Integer onErrorRescueThresholdInSeconds) {
         this.onErrorRescueThresholdInSeconds = onErrorRescueThresholdInSeconds;
     }
+    
+    
     
     
 }
