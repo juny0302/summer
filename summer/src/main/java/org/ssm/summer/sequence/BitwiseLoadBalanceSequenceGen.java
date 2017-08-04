@@ -1,16 +1,14 @@
 package org.ssm.summer.sequence;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /** 
- * 
+ * 逐位负载平衡 
  * @author  June
  * @version v1.0
  * @date 2017年7月27日 下午4:09:51

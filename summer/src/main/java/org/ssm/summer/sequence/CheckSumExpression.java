@@ -30,8 +30,7 @@ public class CheckSumExpression implements Expression {
         if (newId == null) {
             throw new RuntimeException("sequence can not be null when calculate checksum");
         }
-        
-        //id<< 2 | table_index
+
         return newId * 9 % 31 % 10;
     }
 
@@ -48,10 +47,12 @@ public class CheckSumExpression implements Expression {
     * @param args 参数
      */
     public static void main(String[] args) {
-        LOGGER.debug("aa", Integer.valueOf(1 << 2 | 0));
-        LOGGER.debug("", Integer.valueOf(1 << 2 | 1));
-        LOGGER.debug("", Integer.valueOf(1 << 2 | 2));
-        LOGGER.debug("", Integer.valueOf(1 << 2 | 3));
+        LOGGER.debug("aa", 132);
+        LOGGER.debug("test:{}",10011* 9);
+        LOGGER.debug("test:{}",1001* 9 % 31);
+        LOGGER.debug("test:{}",1001* 9 % 31 % 10);
+        LOGGER.debug("test:{}",10011* 9 % 31 % 10);
+
     }
 
 }

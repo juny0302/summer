@@ -19,12 +19,17 @@ public class AutoIncrementTablesSequenceGenTest {
     private final String  OWNERKEY = "order";
     @Autowired
     AutoIncrementTablesSequenceGen gen;
+    
+    @Autowired
+    private SmartSNGen snGen;
     /**
      * Test method for {@link org.ssm.summer.sequence.AutoIncrementTablesSequenceGen#gen(java.lang.String)}.
      */
     @Test
     public void testGen() {
-        gen.gen(OWNERKEY);        
+        System.out.println(gen.gen(OWNERKEY));  
+        System.out.println(snGen.getFormat());
+        System.out.println(snGen.getInterpreter());
     }
 
 }

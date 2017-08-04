@@ -66,8 +66,18 @@
 	    </property>
 	    结束异步配置
 	</bean> -->
-	 <bean id="tableGen" class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
-         <property name="jdbcTemplate" ref="jdbcTemplate"/>
-         <property name="sequenceTableFormat" value="%s_code_%d"/>
-     </bean>
+	<bean id="tableGen" class="org.ssm.summer.sequence.AutoIncrementTablesSequenceGen">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+		<property name="sequenceTableFormat" value="%s_code_%d"/>
+	</bean>
+	
+	<bean class="org.ssm.summer.sequence.SmartSNGen" id="snGen"> 
+		<!-- 序列号的表达式 --> 
+		<constructor-arg value="@{ownerKey, value=SN}-@{bean, ref=sequence}-@{org.ssm.summer.sequence.CheckSumExpression}"/> 
+		<!-- 表达式解析器 --> 
+		<property name="interpreter"> 
+		    <!-- 单号生成器的表达式解释器， 固定为SmartInterpreter--> 
+		    <bean class="org.ssm.summer.sequence.SmartInterpreter" name="smartInterpreter"/> 
+		</property> 
+	</bean>
 </beans> 
